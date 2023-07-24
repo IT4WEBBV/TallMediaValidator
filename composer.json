@@ -1,5 +1,5 @@
 {
-    "name": "minuteoflaravel/laravel-audio-video-validator",
+    "name": "it4web/tallmediavalidator",
     "description": "Laravel validator for video and audio files",
     "keywords": [
         "laravel",
@@ -11,7 +11,7 @@
     ],
     "homepage": "https://github.com/minuteoflaravel/laravel-audio-video-validator",
     "require": {
-        "php": "^7.4|^8.0|^8.1",
+        "php": "^7.4|^8.0|^8.1|^8.2",
         "pbmedia/laravel-ffmpeg": "^7.0|^8.0"
     },
     "license": "MIT",
