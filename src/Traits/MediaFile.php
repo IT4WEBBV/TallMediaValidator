@@ -30,7 +30,7 @@ trait MediaFile {
 
     private function isVideo($file)
     {
-        return $this->mediaHasAudio($file) && $this->mediaHasVideo($file);
+        return $this->mediaHasVideo($file);
     }
 
     private function mediaHasAudio($file) {
@@ -88,12 +88,8 @@ trait MediaFile {
     }
 
     private function getMediaDuration($file) {
-        if ($this->isAudio($file)) {
-            return (int) $this->getAudioStream()->get('duration');
-        }
-
         if ($this->isVideo($file)) {
-            return (int) $this->getVideoStream()->get('duration');
+            return (int) ($this->getVideoStream()->get('duration') ?? \Carbon\Carbon::parse($this->getVideoStream()->get('tags')['DURATION'])->secondsSinceMidnight() ?? null);
         }
 
         return false;

@@ -143,7 +143,7 @@ class MediaValidator {
 
     public function validateVideo(string $attribute, $value): bool
     {
-        return $this->isVideo($value);
+        return $this->isVideo($value->getRealPath());
     }
 
 
@@ -151,13 +151,13 @@ class MediaValidator {
     {
         $this->requireParameterCount(1, $parameters, 'codec');
 
-        if ($this->isAudio($value)) {
+        if ($this->isAudio($value->getRealPath())) {
             $codecName = $this->getAudioStream()->get('codec_name');
 
             return in_array($codecName, $parameters);
         }
 
-        if ($this->isVideo($value)) {
+        if ($this->isVideo($value->getRealPath())) {
             $codecName = $this->getVideoStream()->get('codec_name');
 
             return in_array($codecName, $parameters);
@@ -168,10 +168,10 @@ class MediaValidator {
 
     public function validateDuration(string $attribute, $value, array $parameters): bool
     {
-        if (!$this->isAudio($value) && !$this->isVideo($value)) return true;
+        if (!$this->isAudio($value->getRealPath()) && !$this->isVideo($value->getRealPath())) return true;
 
         $this->requireParameterCount(1, $parameters, 'duration');
-        $duration = $this->getMediaDuration($value);
+        $duration = $this->getMediaDuration($value->getRealPath());
 
         if (!$duration) return false;
 
@@ -180,11 +180,12 @@ class MediaValidator {
 
     public function validateDurationMax(string $attribute, $value, array $parameters): bool
     {
-        if (!$this->isAudio($value) && !$this->isVideo($value)) return true;
+        if (!$this->isVideo($value->getRealPath())) return true;
+        
 
         $this->requireParameterCount(1, $parameters, 'duration_max');
-        $duration = $this->getMediaDuration($value);
-
+        $duration = $this->getMediaDuration($value->getRealPath());
+        
         if (!$duration) return false;
 
         return $duration <= $parameters[0];
@@ -192,10 +193,10 @@ class MediaValidator {
 
     public function validateDurationMin(string $attribute, $value, array $parameters): bool
     {
-        if (!$this->isAudio($value) && !$this->isVideo($value)) return true;
+        if (!$this->isAudio($value->getRealPath()) && !$this->isVideo($value->getRealPath())) return true;
 
         $this->requireParameterCount(1, $parameters, 'duration_min');
-        $duration = $this->getMediaDuration($value);
+        $duration = $this->getMediaDuration($value->getRealPath());
 
         if (!$duration) return false;
 
@@ -204,10 +205,10 @@ class MediaValidator {
 
     public function validateVideoWidth(string $attribute, $value, array $parameters): bool
     {
-        if (!$this->isVideo($value) ) return true;
+        if (!$this->isVideo($value->getRealPath()) ) return true;
 
         $this->requireParameterCount(1, $parameters, 'video_width');
-        $dimensions = $this->getMediaDimensions($value);
+        $dimensions = $this->getMediaDimensions($value->getRealPath());
 
         if (!$dimensions) return false;
 
@@ -216,10 +217,10 @@ class MediaValidator {
 
     public function validateVideoHeight(string $attribute, $value, array $parameters): bool
     {
-        if (!$this->isVideo($value) ) return true;
+        if (!$this->isVideo($value->getRealPath()) ) return true;
 
         $this->requireParameterCount(1, $parameters, 'video_height');
-        $dimensions = $this->getMediaDimensions($value);
+        $dimensions = $this->getMediaDimensions($value->getRealPath());
 
         if (!$dimensions) return false;
 
@@ -228,10 +229,10 @@ class MediaValidator {
 
     public function validateVideoMaxWidth(string $attribute, $value, array $parameters): bool
     {
-        if (!$this->isVideo($value) ) return true;
+        if (!$this->isVideo($value->getRealPath()) ) return true;
 
         $this->requireParameterCount(1, $parameters, 'video_max_width');
-        $dimensions = $this->getMediaDimensions($value);
+        $dimensions = $this->getMediaDimensions($value->getRealPath());
 
         if (!$dimensions) return false;
 
@@ -240,10 +241,10 @@ class MediaValidator {
 
     public function validateVideoMaxHeight(string $attribute, $value, array $parameters): bool
     {
-        if (!$this->isVideo($value) ) return true;
+        if (!$this->isVideo($value->getRealPath()) ) return true;
 
         $this->requireParameterCount(1, $parameters, 'video_max_height');
-        $dimensions = $this->getMediaDimensions($value);
+        $dimensions = $this->getMediaDimensions($value->getRealPath());
 
         if (!$dimensions) return false;
 
@@ -252,10 +253,10 @@ class MediaValidator {
 
     public function validateVideoMinWidth(string $attribute, $value, array $parameters): bool
     {
-        if (!$this->isVideo($value) ) return true;
+        if (!$this->isVideo($value->getRealPath()) ) return true;
 
         $this->requireParameterCount(1, $parameters, 'video_min_width');
-        $dimensions = $this->getMediaDimensions($value);
+        $dimensions = $this->getMediaDimensions($value->getRealPath());
 
         if (!$dimensions) return false;
 
@@ -264,10 +265,10 @@ class MediaValidator {
 
     public function validateVideoMinHeight(string $attribute, $value, array $parameters): bool
     {
-        if (!$this->isVideo($value) ) return true;
+        if (!$this->isVideo($value->getRealPath()) ) return true;
 
         $this->requireParameterCount(1, $parameters, 'video_min_height');
-        $dimensions = $this->getMediaDimensions($value);
+        $dimensions = $this->getMediaDimensions($value->getRealPath());
 
         if (!$dimensions) return false;
 
